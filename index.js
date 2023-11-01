@@ -32,6 +32,33 @@ con.connect(function(err) {
     console.log('Connected!');
 });
 
+app.get('/', function(req, res) {
+    let query = "SELECT * FROM article";
+    let articles = [];
+    con.query(query, (err, result) => {
+        if (err) {
+            throw err
+        } else {
+            articles = result
+            res.render('index',{ articles: articles });
+        }
+    })
+})
+
+
+app.get('/article/:slug', (req, res) => {
+    let query = `SELECT * FROM article WHERE slug = "${req.params.slug}"`;
+    let article = [];
+    con.query(query, [req.params.slug], (err, result) => {
+        if (err) {
+            throw err
+        } else {
+            article = result
+            res.render('article',{ article: article });
+        }
+    })
+})
+
 app.listen(3000, function() {
     console.log('App listening on port 3000!');
 });
