@@ -2,10 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-const articleController = require('../controllers/article');
+const articleControllerClass = require('../controllers/article');
+const articleController = new articleControllerClass();
 
-router.get('/', articleController.getAllArticles);
-router.get('/article/:slug', articleController.getArticleBySlug);
-router.get('/author/:id', articleController.getArticlesByAuthor);
+router.get('/', (req, res) => articleController.getAllArticles(req, res));
 
 module.exports = router;

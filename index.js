@@ -1,30 +1,16 @@
-const express = require('express');
-const app = express();
+const express = require('express')
+const bodyParser = require('body-parser')
 
-const path = require('path');
+const app = express()
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-const hbs = require('express-handlebars');
+const articleControllerClass = require('./controllers/article')
+const articleController = new articleControllerClass()
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.engine('hbs', hbs.engine({
-    extname: 'hbs',
-    defaultLayout: 'main',
-    layoutsDir: __dirname + '/views/layouts/'
-}))
-
-app.use(express.static('public'));
-
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-
-
-const articleRoutes = require('./routes/article');
-
+const articleRoutes = require('./routes/article')
 app.use('/', articleRoutes)
-app.use('/article', articleRoutes)
-app.use('/author', articleRoutes)
 
-app.listen(3000, function() {
-    console.log('App listening on port 3000!');
-});
+app.listen(3025, () => {
+    console.log('Server is running on port 3025')
+})
